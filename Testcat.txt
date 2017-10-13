@@ -1,1 +1,3 @@
-olá retardado!
+﻿olá retardado!
+
+isto usa bootstrap 4.0 tenho de mudar para o 3
