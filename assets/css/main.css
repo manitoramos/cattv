@@ -30,3 +30,30 @@
 ::-webkit-scrollbar-button:vertical:decrement {
     background-image: url(http://i.imgur.com/ygGobeC.png);
 }*/
+
+.onclicka{
+	text-decoration: none;
+	color:white;
+}
+
+.onclicka:hover{
+	text-decoration: none;
+	color:white;
+}
+
+.onclicka:active{
+	text-decoration:none;
+	color:white;
+}
+
+.onclicka:focus{
+	text-decoration:none;
+	color:white;
+	/*opacity: 0.3;
+	background-color: #9900cc;*/
+}
+
+div:hover[class$="hover"] {
+    opacity: 0.3;
+	background-color: #9900cc;
+}

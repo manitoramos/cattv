@@ -14,15 +14,17 @@
     <title>Thumbnail Gallery - Start Bootstrap Template</title>
 
 	<!-- CSS -->
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.css">
+	<link href="assets/bootstrap-3.3.0/dist/css/bootstrap.css" rel="stylesheet">
 	<link href="assets/css/main.css" rel="stylesheet">
 	
     <!-- JS -->
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src='assets/js/jquery2.1.3.js'></script>
+    <script src="assets/bootstrap-3.3.0/dist/js/bootstrap.js"></script>
 
     <!-- Custom styles for this template -->
     <link href="css/thumbnail-gallery.css" rel="stylesheet">
+	
 	
 	<style>
 	hr {
@@ -51,11 +53,7 @@
 			
 	}
 	
-	.border-episode:hover{
-		opacity: 0.3;
-		background-color: #9900cc;
-		padding-right: 40%;
-	}
+
 	
 	.nothing{
 		border-radius: 0px;
@@ -99,8 +97,8 @@
 	<div class="row">
 		<?php
 			$SQL2 = "SELECT * FROM series WHERE imbd='tt0460681'";
-			$res2 = mysql_query($SQL2,$LIGA);
-			$reg2 = mysql_fetch_array($res2);
+			$res2 = mysqli_query($BD,$SQL2);
+			$reg2 = mysqli_fetch_array($res2);
 		?>
 		<div class="col-md-3">
 			<br>
@@ -133,17 +131,27 @@
 			?>
 		</div>
 		<!-- ESCOLHER O SERVIDOR PARA VER O VIDEO -->
-		<div class="col-md-2">
-			<br><br><br><br>
+		<div id="servers2" class="col-md-2 text-center" style="color:white;"></div>
+		<div id="servers" class="col-md-2 text-center" style="color:white;display:none;">
+			<br>
+			<span style="float:right;">
+				<a href="#" class="fa fa-times onclicka" onclick="noneserver()"></a>
+			</span>
+			<br>
+			<h4>Escolha o Servidor:</h4>
+			<span class="glyphicon glyphicon-arrow-down"></span>
+			<span class="glyphicon glyphicon-arrow-down"></span>
+			<br><br>
 			<img width="160" height="40" src="assets/img/openload.png"><br><br>
 			<img width="160" height="40" src="assets/img/streamango.png">
 		</div>
+		<!-- ESCOLHER TEMPORADA E O EPISODIO -->
 		<div class="col-md-3"><!--style="background-color: #343a40; opacity: 0.8;"-->
 		<br>
 		<?php
 			$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681'";
-			$resultado1 = mysql_query($SQL1,$LIGA);
-			$reg1 = mysql_fetch_array($resultado1);
+			$resultado1 = mysqli_query($BD,$SQL1);
+			$reg1 = mysqli_fetch_array($resultado1);
 		?>
 		<span style="color:white;">Temporadas</span>
 		<br>
@@ -152,8 +160,8 @@
 		<div style="height:200px; overflow: auto;">
 			<span style="color:white;">
 			
-				<span class="border-episode"><a href="#pilot" style="text-decoration:none;color:white;" onclick="loadIframe('<?php echo $reg1['openload']; ?>')">1 Pilot</a></span><br>
-				<span class="border-episode">2 Wendigo</span><br>
+				<div class="border-episode hover"><a href="#pilot" class="onclicka" onclick="loadIframe('<?php echo $reg1['openload']; ?>')">1 Pilot</a></div>
+				<div class="border-episode hover"><a href="#Wendigo" class="onclicka" onclick="escserver()">2 Wendigo</a></div>
 				<span class="border-episode">3 Dead in the Water</span><br>
 				<span class="border-episode">4 Phantom Traveler</span><br>
 				<span class="border-episode">5 Bloody Mary</span><br>
@@ -210,16 +218,8 @@
     <script src="vendor/popper/popper.min.js"></script>
 	
 	<script>
-	function loadIframe(url) {
-	//var url = 'https://openload.co/embed/GEaaT2iALI8/SupernaturalS01E11%5Bcattv%5D.mp4';
-    var $iframe = $('#frameserie');
-    if ( $iframe.length ) {
-        $iframe.attr('src',url);   
-        return false;
-    }
-    return true;
-}
 	</script>
+	<script src='assets/js/series.js'></script>
 
   </body>
 
