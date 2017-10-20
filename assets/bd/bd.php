@@ -26,4 +26,15 @@
 			exit;
 		}
 	}
+	else if ($_SERVER['SERVER_NAME'] == "cattv.epizy.com")
+	{
+		$BD = mysqli_connect("sql108.epizy.com", "epiz_20877537", "9VGwbTFHqfWG", "epiz_20877537_cattv");
+		
+		if (!$BD) {
+			echo "Error: Unable to connect to MySQL." . PHP_EOL;
+			echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+			echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+			exit;
+		}
+	}
 ?>

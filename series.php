@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	include("assets/bd/bd.php");
 ?>
 <!DOCTYPE html>
@@ -131,8 +132,13 @@
 			?>
 		</div>
 		<!-- ESCOLHER O SERVIDOR PARA VER O VIDEO -->
-		<div id="servers2" class="col-md-2 text-center" style="color:white;"></div>
-		<div id="servers" class="col-md-2 text-center" style="color:white;display:none;">
+		<div id="servers2" value="20" class="col-md-2 text-center" style="color:white;"></div>
+		<div id="servers" class="col-md-2 text-center" style="color:white;">
+		<?php
+			$SQL3 = "SELECT openload,streamango FROM episodios WHERE sku='1'";
+			$res3 = mysqli_query($BD,$SQL3);
+			$reg3 = mysqli_fetch_array($res3);
+		?>
 			<br>
 			<span style="float:right;">
 				<a href="#" class="fa fa-times onclicka" onclick="noneserver()"></a>
@@ -142,8 +148,12 @@
 			<span class="glyphicon glyphicon-arrow-down"></span>
 			<span class="glyphicon glyphicon-arrow-down"></span>
 			<br><br>
-			<img width="160" height="40" src="assets/img/openload.png"><br><br>
-			<img width="160" height="40" src="assets/img/streamango.png">
+			<?php
+				echo "<a href=\"#\" onclick=\"Iframeopenload()\"><img width=\"160\"  height=\"40\" src=\"assets/img/openload.png\"></a><br><br>";
+				echo "<a href=\"#\" onclick=\"Iframestreamango()\"><img width=\"160\" height=\"40\" src=\"assets/img/streamango.png\"></a>";
+				echo "<input style=\"display:none;\" type=\"text\" id=\"openload\" value=\"{$reg3['openload']}\">";
+				echo "<input style=\"display:none;\" type=\"text\" id=\"streamango\" value=\"{$reg3['streamango']}\">";
+			?>
 		</div>
 		<!-- ESCOLHER TEMPORADA E O EPISODIO -->
 		<div class="col-md-3"><!--style="background-color: #343a40; opacity: 0.8;"-->
@@ -187,6 +197,7 @@
 		</div>
 		
 		</div>
+		<!-- SERIE SINOPSE -->
 		<div class="col-md-12" style="color:white">
 		<h4><b>Sinopse</b></h4>
 		<span style="color:grey;">Two brothers follow their father's footsteps as "hunters" fighting evil supernatural beings of many kinds including monsters, demons, and gods that roam the earth.</span>
@@ -200,7 +211,6 @@
 		</div>
 	
 	</div>
-
     </div>
     <!-- /.container -->
 
@@ -218,6 +228,7 @@
     <script src="vendor/popper/popper.min.js"></script>
 	
 	<script>
+		document.getElementById('servers').style.display = "none";
 	</script>
 	<script src='assets/js/series.js'></script>
 
