@@ -49,11 +49,12 @@
 .onclicka:focus{
 	text-decoration:none;
 	color:white;
-	/*opacity: 0.3;
+	/*opacity: 0.8;
 	background-color: #9900cc;*/
 }
 
 div:hover[class$="hover"] {
-    opacity: 0.3;
-	background-color: #9900cc;
+    background: rgba(153, 0, 204,0.4);
+	/*opacity: 0.3;
+	background: #9900cc;*/
 }

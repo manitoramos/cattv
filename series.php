@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	//$_SESSION['skuep'] = 1;
 	include("assets/bd/bd.php");
 ?>
 <!DOCTYPE html>
@@ -51,7 +52,7 @@
 	}
 	
 	.border-episode{
-			
+		opacity: 0.8;	
 	}
 	
 
@@ -135,9 +136,11 @@
 		<div id="servers2" value="20" class="col-md-2 text-center" style="color:white;"></div>
 		<div id="servers" class="col-md-2 text-center" style="color:white;">
 		<?php
-			$SQL3 = "SELECT openload,streamango FROM episodios WHERE sku='1'";
+			$SQL3 = "SELECT openload,streamango,titulo FROM episodios WHERE sku='{$_SESSION['skuep']}'";
 			$res3 = mysqli_query($BD,$SQL3);
 			$reg3 = mysqli_fetch_array($res3);
+			
+			//echo $_SESSION['skuep'];
 		?>
 			<br>
 			<span style="float:right;">
@@ -153,6 +156,8 @@
 				echo "<a href=\"#\" onclick=\"Iframestreamango()\"><img width=\"160\" height=\"40\" src=\"assets/img/streamango.png\"></a>";
 				echo "<input style=\"display:none;\" type=\"text\" id=\"openload\" value=\"{$reg3['openload']}\">";
 				echo "<input style=\"display:none;\" type=\"text\" id=\"streamango\" value=\"{$reg3['streamango']}\">";
+				
+				echo "<input style=\"display:none;\" type=\"text\" id=\"epname\" value=\"{$reg3['titulo']}\">";
 			?>
 		</div>
 		<!-- ESCOLHER TEMPORADA E O EPISODIO -->
@@ -161,7 +166,6 @@
 		<?php
 			$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681'";
 			$resultado1 = mysqli_query($BD,$SQL1);
-			$reg1 = mysqli_fetch_array($resultado1);
 		?>
 		<span style="color:white;">Temporadas</span>
 		<br>
@@ -169,30 +173,18 @@
 		<hr>
 		<div style="height:200px; overflow: auto;">
 			<span style="color:white;">
+			<?php
 			
-				<div class="border-episode hover"><a href="#pilot" class="onclicka" onclick="loadIframe('<?php echo $reg1['openload']; ?>')">1 Pilot</a></div>
-				<div class="border-episode hover"><a href="#Wendigo" class="onclicka" onclick="escserver()">2 Wendigo</a></div>
-				<span class="border-episode">3 Dead in the Water</span><br>
-				<span class="border-episode">4 Phantom Traveler</span><br>
-				<span class="border-episode">5 Bloody Mary</span><br>
-				<span class="border-episode">6 Skin</span><br>
-				<span class="border-episode">7 Hook Man</span><br>
-				<span class="border-episode">8 Bugs</span><br>
-				<span class="border-episode">9 Home</span><br>
-				<span class="border-episode">10 Asylum</span><br>
-				<span class="border-episode">11 Scarecrow</span><br>
-				<span class="border-episode">12 Faith</span><br>
-				<span class="border-episode">13 Route 666</span><br>
-				<span class="border-episode">14 Nightmare</span><br>
-				<span class="border-episode">15 The Benders</span><br>
-				<span class="border-episode">16 Shadow</span><br>
-				<span class="border-episode">17 Hell House</span><br>
-				<span class="border-episode">18 Something Wicked</span><br>
-				<span class="border-episode">19 Provenance</span><br>
-				<span class="border-episode">20 Dead Man's Blood</span><br>
-				<span class="border-episode">21 Salvation</span><br>
-				<span class="border-episode">22 Devil's Trap</span><br>
-		
+				while($reg1 = mysqli_fetch_array($resultado1)){
+					echo "<div id=\"{$reg1['titulo']}2\" class=\"border-episode hover\">
+							<a href=\"#{$reg1['titulo']}\" class=\"onclicka\" alt=\"Temporada {$reg1['season']}, Episodio {$reg1['episodio']}\" onclick=\"escserver({$reg1['sku']})\">
+							<div>
+								{$reg1['episodio']} {$reg1['titulo']}
+							</div>
+							</a>
+						</div>";
+				}
+			?>
 			</span>
 		</div>
 		
@@ -229,6 +221,12 @@
 	
 	<script>
 		document.getElementById('servers').style.display = "none";
+		if(document.getElementById('epname').value != "")
+		{
+			document.getElementById('servers2').style.display = "inline";
+			var tirarbg = document.getElementById('epname').value;
+			document.getElementById(tirarbg+"2").style.backgroundColor = "";//nome do titulo + id com o(2) para nao confundiar com outros
+		}
 	</script>
 	<script src='assets/js/series.js'></script>
 
