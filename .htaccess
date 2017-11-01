@@ -4,6 +4,7 @@
 
 RewriteEngine on
 RewriteRule ^series/?$ series.php
+RewriteRule ^inserir/?$ inserir.php
 
 
 

@@ -133,10 +133,11 @@
 			?>
 		</div>
 		<!-- ESCOLHER O SERVIDOR PARA VER O VIDEO -->
-		<div id="servers2" value="20" class="col-md-2 text-center" style="color:white;"></div>
-		<div id="servers" class="col-md-2 text-center" style="color:white;">
+		<!--<div id="servers2" value="20" class="col-md-2 text-center" style="color:white;"></div>-->
+		<div class="col-md-2 text-center" style="color:white;">
+		<div id="servers" style="color:white;">
 		<?php
-			$SQL3 = "SELECT openload,streamango,titulo FROM episodios WHERE sku='{$_SESSION['skuep']}'";
+			$SQL3 = "SELECT openload,streamango,titulo,sinopse FROM episodios WHERE sku='{$_SESSION['skuep']}'";
 			$res3 = mysqli_query($BD,$SQL3);
 			$reg3 = mysqli_fetch_array($res3);
 			
@@ -152,19 +153,19 @@
 			<span class="glyphicon glyphicon-arrow-down"></span>
 			<br><br>
 			<?php
-				echo "<a href=\"#\" onclick=\"Iframeopenload()\"><img width=\"160\"  height=\"40\" src=\"assets/img/openload.png\"></a><br><br>";
-				echo "<a href=\"#\" onclick=\"Iframestreamango()\"><img width=\"160\" height=\"40\" src=\"assets/img/streamango.png\"></a>";
-				echo "<input style=\"display:none;\" type=\"text\" id=\"openload\" value=\"{$reg3['openload']}\">";
-				echo "<input style=\"display:none;\" type=\"text\" id=\"streamango\" value=\"{$reg3['streamango']}\">";
+				echo "<a style=\"cursor:pointer;\" onclick=\"Iframeopenload('{$reg3['openload']}')\"><img width=\"160\"  height=\"40\" src=\"assets/img/openload.png\"></a><br><br>";
+				echo "<a style=\"cursor:pointer;\" onclick=\"Iframestreamango('{$reg3['streamango']}')\"><img width=\"160\" height=\"40\" src=\"assets/img/streamango.png\"></a>";
+				echo "<input style=\"display:none;\" type=\"text\" id=\"sinopse\" value=\"{$reg3['sinopse']}\">";
 				
 				echo "<input style=\"display:none;\" type=\"text\" id=\"epname\" value=\"{$reg3['titulo']}\">";
 			?>
+		</div>
 		</div>
 		<!-- ESCOLHER TEMPORADA E O EPISODIO -->
 		<div class="col-md-3"><!--style="background-color: #343a40; opacity: 0.8;"-->
 		<br>
 		<?php
-			$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681'";
+			$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681' AND season=1";
 			$resultado1 = mysqli_query($BD,$SQL1);
 		?>
 		<span style="color:white;">Temporadas</span>
@@ -177,7 +178,7 @@
 			
 				while($reg1 = mysqli_fetch_array($resultado1)){
 					echo "<div id=\"{$reg1['titulo']}2\" class=\"border-episode hover\">
-							<a href=\"#{$reg1['titulo']}\" class=\"onclicka\" alt=\"Temporada {$reg1['season']}, Episodio {$reg1['episodio']}\" onclick=\"escserver({$reg1['sku']})\">
+							<a href=\"#{$reg1['titulo']}\" class=\"onclicka\" alt=\"Temporada {$reg1['season']}, Episodio {$reg1['episodio']}\" onclick=\"escserver('{$reg1['sku']}','{$reg1['titulo']}')\">
 							<div>
 								{$reg1['episodio']} {$reg1['titulo']}
 							</div>
@@ -192,11 +193,21 @@
 		<!-- SERIE SINOPSE -->
 		<div class="col-md-12" style="color:white">
 		<h4><b>Sinopse</b></h4>
-		<span style="color:grey;">Two brothers follow their father's footsteps as "hunters" fighting evil supernatural beings of many kinds including monsters, demons, and gods that roam the earth.</span>
+			<span id="snip" style="color:grey;">Two brothers follow their father's footsteps as "hunters" fighting evil supernatural beings of many kinds including monsters, demons, and gods that roam the earth.</span>
+		</div>
+		<div class="col-md-12" style="color:white;">
+			<br>
+			<span style="float:middle;">
+				Temporada 1 Episodio 1 - Pilot
+			</span>
+			<span style="float:right;">
+				<img src="assets/img/imdb.png" width="30px">
+				&nbsp;&nbsp;<b>8.8 / 10 
+				<img style="position:relative; top:-3px;" src="assets/img/star.png"></b>
+			</span>
 		</div>
 		
 		<div class="col-md-12">
-			<br>
 			<iframe id="frameserie" src="https://openload.co/embed/CBQBfDFZDSA/SupernaturalS01E01%5Bcattv%5D.mkv.mp4" width="100%" height="500" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
 			<br>
 			<br>
@@ -223,9 +234,10 @@
 		document.getElementById('servers').style.display = "none";
 		if(document.getElementById('epname').value != "")
 		{
-			document.getElementById('servers2').style.display = "inline";
+			//document.getElementById('servers2').style.display = "inline";
 			var tirarbg = document.getElementById('epname').value;
 			document.getElementById(tirarbg+"2").style.backgroundColor = "";//nome do titulo + id com o(2) para nao confundiar com outros
+			document.getElementById('epname').value = "";
 		}
 	</script>
 	<script src='assets/js/series.js'></script>
