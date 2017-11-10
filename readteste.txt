@@ -1,0 +1,23 @@
+ <?php
+ /* read.php
+ Use a função UTF8_ENCODE para os acentos caso seja necessário pela encode do servidor */
+ if(isset($_GET['rf'])){
+      $filename=$_GET['rf'];
+      $path=$_SERVER['DOCUMENT_ROOT'].'/'.$filename; 
+      if(file_exists($path)){
+           header('Content-Type: text/plain');
+           // header('Content-Disposition: attachment; filename='.$filename);  <-- DOWNLOAD FILE
+           header('Content-Length: ' . filesize($path));
+           header('Expires: 0');
+           header('Cache-Control: must-revalidate');
+           header('Pragma: public');
+
+           ob_clean();
+           flush();
+           readfile(utf8_encode($path));
+      }
+ }
+ ?>
+
+
+// ja esta a dar com o 000websthost da para por as legendas

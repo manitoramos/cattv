@@ -7,18 +7,36 @@
       $filename=$_GET['rf'];
       //$path=$_SERVER['DOCUMENT_ROOT'].'/'.$filename;
 	  //echo $path;
-      if(file_exists("assets/legendas/" . $filename)){
-		  //echo "aqui";
+      if(file_exists("subs/" . $filename)){
+		  /*echo "aqui";
            header('Content-Type: text/plain');
            //header('Content-Disposition: attachment; filename='.$filename);  <-- DOWNLOAD FILE
-           header('Content-Length: ' . filesize("assets/legendas/" . $filename));
+           header('Content-Length: ' . filesize("subs/" . $filename));
            header('Expires: 0');
            header('Cache-Control: must-revalidate');
            header('Pragma: public');
 
            ob_clean();
            flush();
-           readfile("assets/legendas/" . $filename);
+           readfile(utf8_encode("subs/" . $filename));
+		   */
+		   
+		   header('Content-Type: text/plain');
+			//header('Content-Disposition: attachment; filename='.$filename);  <-- DOWNLOAD FILE
+			header('Content-Length: ' . filesize("subs/" . $filename) . ";charset=UTF-8");
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+
+			ob_clean();
+			//armazena o que for impresso por readfile
+			ob_start();
+
+			readfile(utf8_encode("subs/" . $filename));
+
+			//obtem o que foi impresso por readfile e faz o encode
+			echo utf8_encode(ob_get_clean());
+
       }
  }
  ?>

@@ -46,6 +46,12 @@
 	color:white;
 }
 
+.ative{
+	padding: 1px 3px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
 .onclicka:focus{
 	text-decoration:none;
 	color:white;
@@ -53,7 +59,24 @@
 	background-color: #9900cc;*/
 }
 
+.sative{
+	background: rgba(255, 255, 77,0.4);
+	border: 1px solid rgba(255, 255, 77,0.4);
+}
+
+/*span:hover[class$="hover"] {
+    background: rgba(255, 255, 77,0.4);
+	opacity: 0.3;
+	background: #9900cc;
+}*/
+
 div:hover[class$="hover"] {
+    background: rgba(153, 0, 204,0.4);
+	/*opacity: 0.3;
+	background: #9900cc;*/
+}
+
+div:focus[class$="hover"] {
     background: rgba(153, 0, 204,0.4);
 	/*opacity: 0.3;
 	background: #9900cc;*/

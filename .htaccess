@@ -3,8 +3,9 @@
 
 
 RewriteEngine on
-RewriteRule ^series/?$ series.php
+RewriteRule ^series/(.*) series.php?imbd=$1 [L]
 RewriteRule ^inserir/?$ inserir.php
+#RewriteRule ^subs/(.*) read.php?rf=$1 [L]
 
 
 
