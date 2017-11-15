@@ -1,12 +1,3 @@
-<html>
-<head>
-	<link rel='shortcut icon' type='image/x-icon' href='../favicon.ico'/>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-</head>
-<body>
 <?php
 
  include("assets/bd/bd.php");
@@ -74,7 +65,7 @@
 			}
 			
 			$i = 0;
-			echo $partes[0];//temporada
+			echo "Temporada ". $partes[0];//temporada
 			$season = $partes[0];
 			$imbd = "tt0460681";
 			echo "<br>";
@@ -99,14 +90,39 @@
 					echo $result7[$i];
 					echo "<br>";echo "<br>";*/
 					
+					$ep = $result2[$i];
+					$openload = str_replace("\r\n", "", $result6[$i]);//tirar a quebra de linha se existir
+					$streamango = str_replace("\r\n", "", $result7[$i]);//tirar a quebra de linha se existir
+					if($i == 0){//so as primeiras linha é que costuman ter esse problema
+						$epres = str_replace("\r\n", "", $result2[$i]);//tirar a quebra de linha
+						$desc = str_replace("\r\n", "", $result4[$i]);//tirar a quebra de linha
+						$imbdrat = str_replace("\r\n", "", $result5[$i]);//tirar a quebra de linha
+						
+					}
+					else{
+						$epres = $result2[$i];
+						$desc = $result4[$i];
+						$imbdrat = $result5[$i];
+					}
 					
-					$sql = 'INSERT INTO episodios (season, imbd, episodio, titulo, sinopse, pontuacao, openload,streamango)
-					VALUES ("'.$season.'", "'.$imbd.'", "'.$result2[$i].'", "'.$result3[$i].'", "'.$result4[$i].'", "'.$result5[$i].'", "'.$result6[$i].'", "'.$result7[$i].'")';
+					//preg_replace('/\s/','',$result6[$i]);
+					
+					
+					$select = "SELECT * FROM episodios WHERE season='{$season}' AND episodio='{$ep}' AND imbd='{$imbd}'";
+					$res = mysqli_query($BD,$select);
+					
+					if(mysqli_num_rows($res) > 0){
+						echo $ep . " episode is already on the website<br>";
+					}
+					else{
+						$sql = 'INSERT INTO episodios (season, imbd, episodio, titulo, sinopse, pontuacao, openload,streamango)
+						VALUES ("'.$season.'", "'.$imbd.'", "'.$epres.'", "'.$result3[$i].'", "'.$desc.'", "'.$imbdrat.'", "'.$openload.'", "'.$streamango.'")';
 
-					if ($BD->query($sql) === TRUE) {
-						echo $i+1 . "New record created successfully<br>";
-					} else {
-						echo "Error: " . $sql . "<br>" . $BD->error;
+						if ($BD->query($sql) === TRUE) {
+							echo $i+1 . "New record created successfully<br>";
+						} else {
+							echo "Error: " . $sql . "<br>" . $BD->error;
+						}
 					}
 					
 					/*
@@ -127,13 +143,107 @@
 				//}
 				//if($i == "22"){break;}
 			}
-			
-			
-			
-			
-
       }
  }
+ else if(isset($_POST['inseason'])){
+	 
+			$allthings = $_POST['inseason'];
+	 
+			$partes = explode("]", $allthings);
+			
+			
+			$getmaxep = explode("**", $partes[1]);
+			$e = 0;
+			foreach ($getmaxep as $max){
+				$e++;//saber o numero de episodios da serie que esta a inserir
+			}
+			
+			$i = 0;
+			echo "Temporada ". $partes[0];//temporada
+			$season = $partes[0];
+			$imbd = "tt0460681";
+			echo "\n";
+			//echo $_POST['inseason'];
+			
+			//echo "<script>console.log( 'Debug Objects: " . $_POST['inseason'] . "' );</script>";
+			
+			
+			while($i < $e){
+				//echo $partes[0];
+				//echo "<br>";
+				//foreach ($partes as $value){
+					//$result = explode("**", $partes[0]);
+					
+					$result2 = explode("**", $partes[1]);//episodios
+					$result3 = explode("**", $partes[2]);//nome dos episodios
+					$result4 = explode("**", $partes[3]);//descrição
+					$result5 = explode("**", $partes[4]);//imbd rating
+					$result6 = explode("**", $partes[5]);//openload
+					$result7 = explode("**", $partes[6]);//streamango
+					
+					/////////////////////////////////////////////////////////////////////////////
+					/////////////////////////////////////////////////////////////////////////////
+					
+					$ep = $result2[$i];
+					//$openload = str_replace("\r\n", "", $result6[$i]);//tirar a quebra de linha se existir
+					//$streamango = str_replace("\r\n", "", $result7[$i]);//tirar a quebra de linha se existir
+					$openload = preg_replace('/\s/','',$result6[$i]);
+					$streamango = preg_replace('/\s/','',$result7[$i]);
+
+					#$openload = mysqli_real_escape_string($BD,$openload2);
+					#$streamango = mysqli_real_escape_string($BD,$streamango2);
+
+					if($i == 0){//so as primeiras linha é que costuman ter esse problema
+						$epres2 = preg_replace('/\s/','',$result2[$i]);
+						$titulo2 = preg_replace('/\s/','',$result3[$i]);
+						$desc2 = preg_replace('/\s/','',$result4[$i]);
+						$imbdrat2 = preg_replace('/\s/','',$result5[$i]);
+						//remove os caracters especias para nao bugar ao inserir
+						$epres = mysqli_real_escape_string($BD,$epres2);
+						$titulo = mysqli_real_escape_string($BD,$titulo2);
+						$desc = mysqli_real_escape_string($BD,$desc2);
+						$imbdrat = mysqli_real_escape_string($BD,$imbdrat2);
+						
+					}
+					else{
+						$epres2 = $result2[$i];
+						$titulo2 = $result3[$i];
+						$desc2 = $result4[$i];
+						$imbdrat2 = $result5[$i];
+						//remove os caracters especias para nao bugar ao inserir
+						$epres = mysqli_real_escape_string($BD,$epres2);
+						$titulo = mysqli_real_escape_string($BD,$titulo2);
+						$desc = mysqli_real_escape_string($BD,$desc2);
+						$imbdrat = mysqli_real_escape_string($BD,$imbdrat2);
+					}
+					
+					//preg_replace('/\s/','',$result6[$i]);
+					
+					
+					$select = "SELECT * FROM episodios WHERE season='{$season}' AND episodio='{$ep}' AND imbd='{$imbd}'";
+					$res = mysqli_query($BD,$select);
+					
+					if(mysqli_num_rows($res) > 0){
+						echo $ep . " episode is already on the website\n";
+					}
+					else{
+						$sql = 'INSERT INTO episodios (season, imbd, episodio, titulo, sinopse, pontuacao, openload,streamango)
+						VALUES ("'.$season.'", "'.$imbd.'", "'.$epres.'", "'.$titulo.'", "'.$desc.'", "'.$imbdrat.'", "'.$openload.'", "'.$streamango.'")';
+
+						#$escaped_item = mysqli_real_escape_string($BD,$sql);	
+
+						if ($BD->query($sql) === TRUE) {
+							echo $i+1 . "New record created successfully\n";
+						} else {
+							echo "Error: " . $sql . "<br>" . $BD->error;
+						}
+					}
+					
+					$i++;
+				}
+ }
+ 	#$item = "Zak's Laptop";
+	#$escaped_item = mysqli_real_escape_string($BD,$item);
+	#printf("Escaped string: %s\n", $escaped_item);
+
  ?>
- </body>
- </html>

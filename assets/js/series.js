@@ -46,7 +46,10 @@ function Iframeopenload(url,stuff) {
 				document.getElementById('servers').style.display = "none";
 				//document.getElementById('servers2').style.display = "inline";
 				var tirarbg = document.getElementById('epname').value;
-				document.getElementById(tirarbg+"2").style.backgroundColor = "";
+				if(document.getElementById(tirarbg+"2") == null){
+				}
+				else{
+				document.getElementById(tirarbg+"2").style.backgroundColor = "";}
 			}
 			
 				

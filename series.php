@@ -308,7 +308,10 @@
 		{
 			//document.getElementById('servers2').style.display = "inline";
 			var tirarbg = document.getElementById('epname').value;
-			document.getElementById(tirarbg+"2").style.backgroundColor = "";//nome do titulo + id com o(2) para nao confundiar com outros
+			if(document.getElementById(tirarbg+"2") == null)
+			{}
+			else
+			{document.getElementById(tirarbg+"2").style.backgroundColor = "";}//nome do titulo + id com o(2) para nao confundiar com outros
 			document.getElementById('epname').value = "";
 		}
 	</script>
