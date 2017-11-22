@@ -1,4 +1,9 @@
 <?php
+	session_start();
+	include("assets/bd/bd.php");
+	
+	$SQL88 = "SELECT * FROM series";
+	$res88 = mysqli_query($BD,$SQL88);
 	
 ?>
 <!DOCTYPE html>
@@ -11,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Thumbnail Gallery - Start Bootstrap Template</title>
+    <title>Cattv - Inserir</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.css">
@@ -40,6 +45,21 @@
 <body>
 	<div class="container">
 		<div class="row">
+			<center>
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<select class="form-control" id="choiceserie">
+					<option value="">Escolha a serie a inserir:</option>
+					<?php
+						while($reg88 = mysqli_fetch_array($res88))
+						{
+							echo "<option value=\"{$reg88['imbd']}\">{$reg88['titulo']}</option>";
+						}
+					?>
+				</select>
+			</div>
+			<div class="col-md-4"></div>
+			</center>
 			<div class="col-md-8">
 				<label for="comment" class="let">Insere o codigo aqui:</label>
 				<textarea class="form-control" rows="35" id="comment" placeholder="Exemplo:
@@ -75,10 +95,23 @@ streamango**asdasda]<-streamango"
 			$.ajax({
 				url: 'inserir.php',
 				type: 'POST',
-				data: { inseason: document.getElementById('comment').value },
+				data: { inseason: document.getElementById('comment').value, imbd: document.getElementById('choiceserie').value },
 				success: function(result) {
-					//alert('the request was successfully sent to the server');
-					$('#logs').text(result);
+					if(result == "error1")
+					{
+						document.getElementById("choiceserie").focus();
+						$('#logs').text("Escolhe a serie a que pretendes adicionar episodios");
+					}
+					else if(result == "error2")
+					{
+						document.getElementById("comment").focus();
+						$('#logs').text("Sem nenhum episodio para inserir");
+					}
+					else
+					{
+						//alert('the request was successfully sent to the server');
+						$('#logs').text(result);
+					}
 				}
 			});
 			

@@ -1,7 +1,7 @@
 <?php
 	if(!isset($_GET['imbd']))
 	{
-		header("Location: ../index.html");
+		header("Location: ../home");
 	}
 	else
 	{
@@ -10,13 +10,18 @@
 		
 		$SQL88 = "SELECT * FROM series WHERE imbd='{$_GET['imbd']}'";
 		$res88 = mysqli_query($BD,$SQL88);
+		$reg88 = mysqli_fetch_array($res88);
 		
 		$SQL89 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}'";
 		$res89 = mysqli_query($BD,$SQL89);
 		
 		if(mysqli_num_rows($res88) <= 0)
 		{
-			header("Location: ../index.html");
+			header("Location: ../home");
+		}
+		else
+		{
+			
 		}
 		
 		//$_SESSION['skuep'] = 1;
@@ -57,13 +62,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Thumbnail Gallery - Start Bootstrap Template</title>
+	
+    <title><?php echo $reg88['titulo']; ?></title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../assets/font-awesome-4.7.0/css/font-awesome.css">
 	<link href="../assets/bootstrap-3.3.0/dist/css/bootstrap.css" rel="stylesheet">
 	<link href="../assets/css/main.css" rel="stylesheet">
+	<link href="../assets/css/menu.css" rel="stylesheet">
 	
     <!-- JS -->
     <script src='../assets/js/jquery2.1.3.js'></script>
@@ -82,24 +88,10 @@
 		margin: 1em 0;
 		padding: 0; 
 	}
-	body{
-		background-color: #1d1d1d;
-	}
-	footer{
-		border-top: solid #080808;
-		border-width: 0 0 1px;
-		border-radius: 0px;
-		background-color:#222
-	}
-	
-	.foot-padding{
-		padding: 10px 0px 3px 0px;
-	}
 	
 	.border-episode{
 		opacity: 0.8;	
 	}
-	
 
 	
 	.nothing{
@@ -130,13 +122,15 @@
 	
 	<div class="row">
 		<?php
-			$SQL2 = "SELECT * FROM series WHERE imbd='tt0460681'";
+			//header('Content-Length: ' . filesize("assets/inserir/" . $filename) . ";charset=UTF-8");
+			
+			$SQL2 = "SELECT * FROM series WHERE imbd='{$_GET['imbd']}'";
 			$res2 = mysqli_query($BD,$SQL2);
 			$reg2 = mysqli_fetch_array($res2);
 		?>
 		<div class="col-md-3">
 			<br>
-			<img class="img-thumbnail" width="212" height="253" src="../assets/img/supernatural.png">
+			<img class="img-thumbnail" width="212" height="253" src="../<?php echo $reg2['img']; ?>">
 		</div>
 		<div class="col-md-4" style="color:white">
 			<h2 class=""><b><?php echo $reg2['titulo']; ?></b></h2>
@@ -154,7 +148,7 @@
 						echo "{$reg2['start']}- {$reg2['end']}";
 					}
 					echo "<br>";
-					echo $reg2['categorias'];
+					echo htmlentities($reg2['categorias'], ENT_COMPAT,'ISO-8859-1', true);
 				?>
 			</b></h4>
 			
@@ -169,9 +163,13 @@
 		<div class="col-md-2 text-center" style="color:white;">
 		<div id="servers" style="color:white;">
 		<?php
-			$SQL3 = "SELECT openload,streamango,titulo,sinopse,episodio,season,pontuacao FROM episodios WHERE sku='{$_SESSION['skuep']}'";
-			$res3 = mysqli_query($BD,$SQL3);
-			$reg3 = mysqli_fetch_array($res3);
+			if(!isset($_SESSION['skuep'])){
+			}
+			else{
+				$SQL3 = "SELECT openload,streamango,titulo,sinopse,episodio,season,pontuacao FROM episodios WHERE sku='{$_SESSION['skuep']}'";
+				$res3 = mysqli_query($BD,$SQL3);
+				$reg3 = mysqli_fetch_array($res3);
+			}
 			
 			//echo $_SESSION['skuep'];
 		?>
@@ -185,11 +183,15 @@
 			<span class="glyphicon glyphicon-arrow-down"></span>
 			<br><br>
 			<?php
+			if(!isset($_SESSION['skuep'])){
+			}
+			else{
 				echo "<a style=\"cursor:pointer;\" onclick=\"Iframeopenload('{$reg3['openload']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}')\"><img width=\"160\"  height=\"40\" src=\"../assets/img/openload.png\"></a><br><br>";
 				echo "<a style=\"cursor:pointer;\" onclick=\"Iframestreamango('{$reg3['streamango']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}')\"><img width=\"160\" height=\"40\" src=\"../assets/img/streamango.png\"></a>";
 				echo "<input style=\"display:none;\" type=\"text\" id=\"sinopse\" value=\"{$reg3['sinopse']}\">";
 				
 				echo "<input style=\"display:none;\" type=\"text\" id=\"epname\" value=\"{$reg3['titulo']}\">";
+			}
 			?>
 		</div>
 		</div>
@@ -203,22 +205,22 @@
 			<div style="color:white;">
 			<?php
 			if(!isset($_SESSION['season'])){
-				$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681' AND season=1";
+				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season=1";
 				$resultado1 = mysqli_query($BD,$SQL1);
 			}
 			else{
-				$SQL1 = "SELECT * FROM episodios WHERE imbd='tt0460681' AND season={$_SESSION['season']}";
+				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season={$_SESSION['season']}";
 				$resultado1 = mysqli_query($BD,$SQL1);
 			}
 				
-				$SQL9 = "SELECT * FROM episodios WHERE imbd='tt0460681'";
+				$SQL9 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}'";
 				$res9 = mysqli_query($BD,$SQL9);
 			?>
 			<?php
 				$i = 1;
 				while($reg9 = mysqli_fetch_array($res9)){
 					
-						$sql77 = "SELECT * FROM episodios WHERE imbd='tt0460681' AND season={$i}";
+						$sql77 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season={$i}";
 						$res77 = mysqli_query($BD,$sql77);
 					
 					if(mysqli_num_rows($res77) > 0){
@@ -262,25 +264,34 @@
 			
 			</div>
 		</div>
+		<?php
+			
+			$SQL9 = "SELECT * FROM series WHERE imbd='{$_GET['imbd']}'";
+			$res9 = mysqli_query($BD,$SQL9);
+			$reg9 = mysqli_fetch_array($res9);
+		
+		?>
 		<!-- SERIE SINOPSE -->
 		<div class="col-md-12" style="color:white">
 		<h4><b>Sinopse</b></h4>
-			<span id="snip" style="color:grey;">Two brothers follow their father's footsteps as "hunters" fighting evil supernatural beings of many kinds including monsters, demons, and gods that roam the earth.</span>
+			<span id="snip" style="color:grey;"><?php echo $reg9['sinopse']; ?></span>
 		</div>
 		<div class="col-md-12" style="color:white;">
 			<br>
-			<span id="temepname" style="float:middle;">
-				Temporada 1 Episodio 1 - Pilot
-			</span>
-			<span style="float:right;">
-				<img src="assets/img/imdb.png" width="30px">
-				&nbsp;&nbsp;<b><span id="pontep">8.8</span> / 10 
-				<img style="position:relative; top:-3px;" src="../assets/img/star.png"></b>
-			</span>
+			<div id="desccc" style="display:none;">
+				<span id="temepname" style="float:middle;">
+					<!-- Aqui fica o nome dos episodios -->
+				</span>
+				<span style="float:right;">
+					<img src="assets/img/imdb.png" width="30px">
+					&nbsp;&nbsp;<b><span id="pontep">8.8</span> / 10 
+					<img style="position:relative; top:-3px;" src="../assets/img/star.png"></b>
+				</span>
+			</div>
 		</div>
 		
 		<div class="col-md-12">
-			<iframe id="frameserie" src="https://openload.co/embed/CBQBfDFZDSA" width="100%" height="500" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+			<iframe id="frameserie" src="" width="100%" height="500" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
 			<br><!-- name="subs:https://cattv.000webhostapp.com/subs/SupernaturalS01E02.srt" -->
 			<br>
 		</div>
@@ -290,7 +301,7 @@
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer>
+    <footer id="footer">
       <div class="container">
 		  <div class="row">
 				<p class="text-center foot-padding" style="color:white;">CatTv since 2017</p>
@@ -313,6 +324,11 @@
 			else
 			{document.getElementById(tirarbg+"2").style.backgroundColor = "";}//nome do titulo + id com o(2) para nao confundiar com outros
 			document.getElementById('epname').value = "";
+		}
+		
+		window.onload = initPage;
+		function initPage(){
+			console.clear();
 		}
 	</script>
 	<script src='../assets/js/series.js'></script>

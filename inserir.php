@@ -147,6 +147,23 @@
  }
  else if(isset($_POST['inseason'])){
 	 
+			if($_POST['imbd'] == "")
+			{
+				echo "error1";
+			}
+			else if($_POST['inseason'] == "")
+			{
+				echo "error2";
+			}
+			else
+			{
+			
+			$imbd = $_POST['imbd'];
+			//select ao titulo da serie para fazer display
+			$SQL88 = "SELECT * FROM series WHERE imbd='{$imbd}'";
+			$res88 = mysqli_query($BD,$SQL88);
+			$reg88 = mysqli_fetch_array($res88);
+			
 			$allthings = $_POST['inseason'];
 	 
 			$partes = explode("]", $allthings);
@@ -159,9 +176,11 @@
 			}
 			
 			$i = 0;
-			echo "Temporada ". $partes[0];//temporada
+			//echo "{$imbd}\n";
+			//echo "{$reg88['titulo']}\n";
+			echo "Temporada ". $partes[0] . " [{$imbd}]". " [{$reg88['titulo']}]";//temporada
 			$season = $partes[0];
-			$imbd = "tt0460681";
+			
 			echo "\n";
 			//echo $_POST['inseason'];
 			
@@ -241,6 +260,7 @@
 					
 					$i++;
 				}
+			}
  }
  	#$item = "Zak's Laptop";
 	#$escaped_item = mysqli_real_escape_string($BD,$item);

@@ -10,6 +10,7 @@ RewriteEngine on
 RewriteRule ^series/(.*) series.php?imbd=$1 [L]
 RewriteRule ^inserir/?$ insert.php
 #RewriteRule ^subs/(.*) read.php?rf=$1 [L]
+RewriteRule ^home/?$ index.php
 
 
 # DO NOT REMOVE THIS LINE AND THE LINES BELOW ERRORPAGEID:uQesaN

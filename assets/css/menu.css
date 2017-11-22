@@ -1,0 +1,13 @@
+body{
+	background-color: #1d1d1d;
+}
+
+#footer{
+	border-top: solid #080808;
+	border-width: 0 0 1px;
+	border-radius: 0px;
+	background-color:#222;
+	bottom: 0;
+	margin-top: 30px;
+	padding: 10px 0px 3px 0px;
+}

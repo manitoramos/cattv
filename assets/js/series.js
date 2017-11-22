@@ -9,10 +9,13 @@ function Iframeopenload(url,stuff) {
 		if ( $iframe.length ) {
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
-			document.title = "Supernatural - " + document.getElementById("epname").value;//mudar o titulo da pagina
+			document.title = document.getElementById("epname").value;//mudar o titulo da pagina
 			$('#temepname').text("Temporada " + res[2] + " Episodio " + res[1] + " - " + res[0]);
 			$('#pontep').text(res[3]);
+			$('#desccc').show();
 			return false;
+			
+			
 		}
 		return true;
 	}
@@ -26,9 +29,10 @@ function Iframeopenload(url,stuff) {
 		if ( $iframe.length ) {
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
-			document.title = "Supernatural - " + document.getElementById("epname").value;//mudar o titulo da pagina
+			document.title = document.getElementById("epname").value;//mudar o titulo da pagina
 			$('#temepname').text("Temporada " + res[2] + " Episodio " + res[1] + " - " + res[0]);
 			$('#pontep').text(res[3]);
+			$('#desccc').show();
 			return false;
 		}
 		return true;
@@ -37,8 +41,8 @@ function Iframeopenload(url,stuff) {
 	//escolher server para ver ep
 	function escserver(sku,titulo){
 		document.getElementById(titulo+"2").style.backgroundColor = "rgba(153, 0, 204,0.4)";
-		
-			if(titulo == document.getElementById('epname').value)
+			
+			if(document.getElementById('epname') == null || titulo == document.getElementById('epname').value)
 			{
 			}
 			else if(document.getElementById('epname').value != "" && titulo != document.getElementById('epname').value)
@@ -83,8 +87,21 @@ function Iframeopenload(url,stuff) {
 					var str = url;
 					var res = str.split("/");
 					
-					var str = res[5];
-					var res = str.split("#");
+					if(res[2] == "cattv.epizy.com")
+					{
+						var str = res[4];
+						var res = str.split("#");
+					}
+					else if(res[2] == "localhost")
+					{
+						var str = res[5];
+						var res = str.split("#");
+					}
+					else
+					{
+						alert("este endereço ainda nao foi configurado no js");
+					}
+
 					
 					$( "#servers" ).load( "../series/"+res[0]+" #servers", function() {
 						//document.getElementById('servers2').style.display = "none";
@@ -93,6 +110,7 @@ function Iframeopenload(url,stuff) {
 					});
 					//console.log(http.responseText);
 					//console.log(res[0]);
+					console.clear();//limpar a consola
 					
 				}
 			}
@@ -154,8 +172,20 @@ function Iframeopenload(url,stuff) {
 					var str = url;
 					var res = str.split("/");
 					
-					var str = res[5];
-					var res = str.split("#");
+					if(res[2] == "cattv.epizy.com")
+					{
+						var str = res[4];
+						var res = str.split("#");
+					}
+					else if(res[2] == "localhost")
+					{
+						var str = res[5];
+						var res = str.split("#");
+					}
+					else
+					{
+						alert("este endereço ainda nao foi configurado no js");
+					}
 					
 					$( "#seasons" ).load( "../series/"+res[0]+" #seasons", function() {
 						//document.getElementById('servers2').style.display = "none";
@@ -165,6 +195,7 @@ function Iframeopenload(url,stuff) {
 					
 					
 					//console.log(res[0]);
+					console.clear();//limpar a consola
 					
 				}
 			}

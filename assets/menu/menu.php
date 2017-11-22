@@ -1,7 +1,18 @@
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <span class="navbar-header">
-      <a class="navbar-brand" href="#">CatTv</a>
+      <a class="navbar-brand" href="<?php
+		if($_SERVER['SERVER_NAME'] == "localhost")
+		{
+			echo "http://" . $_SERVER['SERVER_NAME'] . "/cattv";
+		}
+		else
+		{
+			echo "http://" . $_SERVER['SERVER_NAME'];
+		}
+	  
+	  
+	  ?>">CatTv</a>
     </span>
     <ul class="nav navbar-nav">
       <!--<li class=""><a href="#">Home</a></li>
