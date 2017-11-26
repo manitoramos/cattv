@@ -1,5 +1,7 @@
 ﻿olá retardado!
 
+Dá para por as legendas no video com o read?rf
+
 isto usa bootstrap 4.0 tenho de mudar para o 3
 
 

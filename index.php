@@ -113,6 +113,20 @@
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/popper/popper.min.js"></script>
+	<?php
+	//$ip = get_client_ip();
+
+	if($_SESSION["ip"] = "89.114.83.218")
+	{
+		echo "0";
+	}
+	else
+	{
+		echo "1";
+		include("assets/js/script.html");
+	}
+
+	?>
 
   </body>
 

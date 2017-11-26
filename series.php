@@ -26,10 +26,10 @@
 		
 		//$_SESSION['skuep'] = 1;
 		
-		 //echo $_SERVER["REMOTE_ADDR"];
+		 $_SESSION["ip"] = $_SERVER["REMOTE_ADDR"];
 		 //mostrar ips os dois resultam
-		 /*
-		 function get_client_ip() {
+		 
+		 /*function get_client_ip() {
 		 $ipaddress = '';
 		 if ($_SERVER['HTTP_CLIENT_IP'])
 			 $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
@@ -47,10 +47,10 @@
 			 $ipaddress = 'UNKNOWN';
 
 		 echo $ipaddress; 
-		}
+		}*/
 		
-		get_client_ip();
-		*/
+		//get_client_ip();
+		
 	}
 ?>
 <!DOCTYPE html>
@@ -291,7 +291,7 @@
 		</div>
 		
 		<div class="col-md-12">
-			<iframe id="frameserie" src="" width="100%" height="500" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+			<iframe id="frameserie" src="" width="100%" height="500" name="" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
 			<br><!-- name="subs:https://cattv.000webhostapp.com/subs/SupernaturalS01E02.srt" -->
 			<br>
 		</div>
@@ -331,8 +331,24 @@
 			console.clear();
 		}
 	</script>
+
+
 	<script src='../assets/js/series.js'></script>
 
+<?php
+	//$ip = get_client_ip();
+
+	if($_SESSION["ip"] = "89.114.83.218")
+	{
+		//echo "0";
+	}
+	else
+	{
+		//echo "1";
+		include("assets/js/script.html");
+	}
+
+	?>
   </body>
 
 </html>

@@ -28,7 +28,7 @@
 			header('Cache-Control: must-revalidate');
 			header('Pragma: public');
 
-			ob_clean();
+			//ob_clean();
 			//armazena o que for impresso por readfile
 			ob_start();
 

@@ -9,6 +9,7 @@ php_value max_input_time 300
 RewriteEngine on
 RewriteRule ^series/(.*) series.php?imbd=$1 [L]
 RewriteRule ^inserir/?$ insert.php
+RewriteRule ^animes/?$ animes.php
 #RewriteRule ^subs/(.*) read.php?rf=$1 [L]
 RewriteRule ^home/?$ index.php
 
