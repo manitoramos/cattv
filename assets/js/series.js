@@ -1,7 +1,7 @@
 function Iframeopenload(url,stuff) {
 	//var url = document.getElementById("openload").value;
 	//alert(url);
-	//titulo,episodios,season,pontuacao
+	//titulo,episodios,season,pontuacao,titulo serie
 	var str = stuff;
 	var res = str.split("/");
 	
@@ -9,7 +9,15 @@ function Iframeopenload(url,stuff) {
 		if ( $iframe.length ) {
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
-			document.title = document.getElementById("epname").value;//mudar o titulo da pagina
+			//document.title = document.getElementById("epname").value;//mudar o titulo da pagina
+			if(res[2] < 10 && res[2] > 0){
+				if(res[1] < 10 && res[1] > 0){document.title = res[4] + " S0" + res[2] + "E0" + res[1] + " - " + document.getElementById("epname").value;}
+				else{document.title = res[4] + " S0" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;}
+			}
+			else{
+				if(res[1] < 10 && res[1] > 0){document.title = res[4] + " S" + res[2] + "E0" + res[1] + " - " + document.getElementById("epname").value;}
+				else{document.title = res[4] + " S" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;}
+			}
 			$('#temepname').text("Temporada " + res[2] + " Episodio " + res[1] + " - " + res[0]);
 			$('#pontep').text(res[3]);
 			$('#desccc').show();
@@ -18,8 +26,8 @@ function Iframeopenload(url,stuff) {
 			
 		}
 		return true;
-	}
-	function Iframestreamango(url,stuff){
+}
+function Iframestreamango(url,stuff){
 	//var url = document.getElementById('streamango').value;
 	//alert(url);
 	var str = stuff;
@@ -29,17 +37,18 @@ function Iframeopenload(url,stuff) {
 		if ( $iframe.length ) {
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
-			document.title = document.getElementById("epname").value;//mudar o titulo da pagina
+			//document.title = document.getElementById("epname").value;//mudar o titulo da pagina
+			document.title = "Supernatural S" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;
 			$('#temepname').text("Temporada " + res[2] + " Episodio " + res[1] + " - " + res[0]);
 			$('#pontep').text(res[3]);
 			$('#desccc').show();
 			return false;
 		}
 		return true;
-	}
+}
 	
-	//escolher server para ver ep
-	function escserver(sku,titulo){
+//escolher server para ver ep
+function escserver(sku,titulo){
 		document.getElementById(titulo+"2").style.backgroundColor = "rgba(153, 0, 204,0.4)";
 			
 			if(document.getElementById('epname') == null || titulo == document.getElementById('epname').value)
@@ -115,7 +124,7 @@ function Iframeopenload(url,stuff) {
 				}
 			}
 			http.send(parametros);
-		}
+}
 	
 	//ao clicar na cruz para fechar as abas dos servers
 	function noneserver(){

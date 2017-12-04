@@ -68,7 +68,7 @@
 
       <h1 class="text-center" style="color:white;">Series</h1>
 
-      <div class="row text-center">
+      <div class="row">
 	  
 	  <?php
 		$SQL88 = "SELECT * FROM series";
@@ -76,7 +76,7 @@
 		$first = 0;
 		while($reg88 = mysqli_fetch_array($res88)){
 			if($first == 0){
-				echo "<div class=\"col-lg-3 col-md-4 col-xs-6\" style=\"\">
+				echo "<div class=\"col-xs-6 col-sm-5 col-md-4 col-lg-3\" style=\"\">
 			  <a href=\"series/{$reg88['imbd']}\" class=\"\">
 				<img class=\"img-fluid img-thumbnail imgthumb\" src=\"{$reg88['img']}\" alt=\"\">
 			  </a>
@@ -85,7 +85,7 @@
 			}
 			else
 			{
-				echo "<div class=\"col-lg-3 col-md-4 col-xs-6\" style=\"margin-left: -7%;\">
+				echo "<div class=\"col-xs-6 col-sm-5 col-md-4 col-lg-3\" style=\"margin-left: -7%;\">
 			  <a href=\"series/{$reg88['imbd']}\" class=\"\">
 				<img class=\"img-fluid img-thumbnail imgthumb\" src=\"{$reg88['img']}\" alt=\"\">
 			  </a>
@@ -106,6 +106,11 @@
       <div class="container">
 		  <div class="row">
 				<p class="text-center foot-padding" style="color:white;">CatTv since 2017</p>
+				<center><script id="_waufzb">var _wau = _wau || []; _wau.push(["small", "0l28twoo3pgq", "fzb"]);
+				(function() {var s=document.createElement("script"); s.async=true;
+				s.src="//widgets.amung.us/small.js";
+				document.getElementsByTagName("head")[0].appendChild(s);
+				})();</script></center>
 		  </div>
       </div>
       <!-- /.container -->
@@ -118,11 +123,11 @@
 
 	if($_SESSION["ip"] = "89.114.83.218")
 	{
-		echo "0";
+		//echo $_SESSION["ip"];
 	}
 	else
 	{
-		echo "1";
+		//echo "1";
 		include("assets/js/script.html");
 	}
 

@@ -186,8 +186,8 @@
 			if(!isset($_SESSION['skuep'])){
 			}
 			else{
-				echo "<a style=\"cursor:pointer;\" onclick=\"Iframeopenload('{$reg3['openload']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}')\"><img width=\"160\"  height=\"40\" src=\"../assets/img/openload.png\"></a><br><br>";
-				echo "<a style=\"cursor:pointer;\" onclick=\"Iframestreamango('{$reg3['streamango']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}')\"><img width=\"160\" height=\"40\" src=\"../assets/img/streamango.png\"></a>";
+			echo "<a style=\"cursor:pointer;\" onclick=\"Iframeopenload('{$reg3['openload']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}/{$reg88['titulo']}')\"><img width=\"160\"  height=\"40\" src=\"../assets/img/openload.png\"></a><br><br>";
+				echo "<a style=\"cursor:pointer;\" onclick=\"Iframestreamango('{$reg3['streamango']}','{$reg3['titulo']}/{$reg3['episodio']}/{$reg3['season']}/{$reg3['pontuacao']}/{$reg88['titulo']}')\"><img width=\"160\" height=\"40\" src=\"../assets/img/streamango.png\"></a>";
 				echo "<input style=\"display:none;\" type=\"text\" id=\"sinopse\" value=\"{$reg3['sinopse']}\">";
 				
 				echo "<input style=\"display:none;\" type=\"text\" id=\"epname\" value=\"{$reg3['titulo']}\">";
@@ -205,11 +205,11 @@
 			<div style="color:white;">
 			<?php
 			if(!isset($_SESSION['season'])){
-				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season=1";
+				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season=1 ORDER BY episodio";
 				$resultado1 = mysqli_query($BD,$SQL1);
 			}
 			else{
-				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season={$_SESSION['season']}";
+				$SQL1 = "SELECT * FROM episodios WHERE imbd='{$_GET['imbd']}' AND season={$_SESSION['season']} ORDER BY episodio";
 				$resultado1 = mysqli_query($BD,$SQL1);
 			}
 				
@@ -305,6 +305,11 @@
       <div class="container">
 		  <div class="row">
 				<p class="text-center foot-padding" style="color:white;">CatTv since 2017</p>
+				<center><script id="_waufzb">var _wau = _wau || []; _wau.push(["small", "0l28twoo3pgq", "fzb"]);
+				(function() {var s=document.createElement("script"); s.async=true;
+				s.src="//widgets.amung.us/small.js";
+				document.getElementsByTagName("head")[0].appendChild(s);
+				})();</script></center>
 		  </div>
       </div>
       <!-- /.container -->
