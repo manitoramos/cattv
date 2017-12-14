@@ -13,6 +13,11 @@ RewriteRule ^animes/?$ animes.php
 #RewriteRule ^subs/(.*) read.php?rf=$1 [L]
 RewriteRule ^home/?$ index.php
 
+#ADMIN Frinendly urls
+RewriteRule ^admin/home/?$ admin/index.php [L]
+RewriteRule ^admin/inserir@series@novo_episodio/?$ admin/seriesnewep.php [L]
+#RewriteRule ^admin/inserir@meke/?$ admin/seriesnewep.php [L]
+
 
 # DO NOT REMOVE THIS LINE AND THE LINES BELOW ERRORPAGEID:uQesaN
 #ErrorDocument 500 /500.html
