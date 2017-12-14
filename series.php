@@ -109,7 +109,7 @@
 
   </head>
 
-  <body>
+  <body class="bodyy">
 
     <!-- Navigation   MENUUUU-->
 	<?php
@@ -161,6 +161,9 @@
 		<!-- ESCOLHER O SERVIDOR PARA VER O VIDEO -->
 		<!--<div id="servers2" value="20" class="col-md-2 text-center" style="color:white;"></div>-->
 		<div class="col-md-2 text-center" style="color:white;">
+		<div id="gifsevs" style="display:none;">
+			<img src="../assets/img/loading.gif" width="50" style="position: absolute;top:120px;left:75px;">
+		</div>
 		<div id="servers" style="color:white;">
 		<?php
 			if(!isset($_SESSION['skuep'])){
@@ -245,7 +248,7 @@
 			?>
 			</div>
 			<hr>
-			<div style="height:200px; overflow: auto;">
+			<div style="height:200px; overflow: auto;" class="episode">
 				<span style="color:white;">
 				<?php
 				
@@ -283,7 +286,7 @@
 					<!-- Aqui fica o nome dos episodios -->
 				</span>
 				<span style="float:right;">
-					<img src="assets/img/imdb.png" width="30px">
+					<img src="../assets/img/imdb.png" width="30px">
 					&nbsp;&nbsp;<b><span id="pontep">8.8</span> / 10 
 					<img style="position:relative; top:-3px;" src="../assets/img/star.png"></b>
 				</span>

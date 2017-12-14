@@ -101,7 +101,7 @@
 					}
 					else{
 						$epres = $result2[$i];
-						$desc = $result4[$i];
+						$desc = addslashes($result4[$i]);
 						$imbdrat = $result5[$i];
 					}
 					

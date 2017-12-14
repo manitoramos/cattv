@@ -1,0 +1,12 @@
+ao inserir a serie se a descriçao tiver "" nao insere o resto do texto que ta para a frente resolver isto!
+
+
+Nas series meter outro log em baixo para mostrar episodio a episodio detalhado como:
+titulo: blabalba
+desc: blaablaa
+openload: asdasdas
+streamanngo: asdasdas
+imbd rat:a asdasdasda
+Para conferir se alguma coisa fica errado mando ver se o texto e igual senao ele fica a vermelho senao fica normal
+para detetar os erros mais rapido para ser mais facil corrigir nao ter que tar a ir ver ao navicar ao phpmyadmin
+se for no online torna-se complicado!

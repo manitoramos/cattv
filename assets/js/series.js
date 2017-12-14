@@ -10,7 +10,7 @@ function Iframeopenload(url,stuff) {
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
 			//document.title = document.getElementById("epname").value;//mudar o titulo da pagina
-			if(res[2] < 10 && res[2] > 0){
+			if(res[2] < 10 && res[2] > 0){//Mete os nome da serie o titulo do ep e numero de episodio 
 				if(res[1] < 10 && res[1] > 0){document.title = res[4] + " S0" + res[2] + "E0" + res[1] + " - " + document.getElementById("epname").value;}
 				else{document.title = res[4] + " S0" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;}
 			}
@@ -38,7 +38,14 @@ function Iframestreamango(url,stuff){
 			$iframe.attr('src',url);
 			$('#snip').text(document.getElementById("sinopse").value);
 			//document.title = document.getElementById("epname").value;//mudar o titulo da pagina
-			document.title = "Supernatural S" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;
+			if(res[2] < 10 && res[2] > 0){//Mete os nome da serie o titulo do ep e numero de episodio 
+				if(res[1] < 10 && res[1] > 0){document.title = res[4] + " S0" + res[2] + "E0" + res[1] + " - " + document.getElementById("epname").value;}
+				else{document.title = res[4] + " S0" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;}
+			}
+			else{
+				if(res[1] < 10 && res[1] > 0){document.title = res[4] + " S" + res[2] + "E0" + res[1] + " - " + document.getElementById("epname").value;}
+				else{document.title = res[4] + " S" + res[2] + "E" + res[1] + " - " + document.getElementById("epname").value;}
+			}
 			$('#temepname').text("Temporada " + res[2] + " Episodio " + res[1] + " - " + res[0]);
 			$('#pontep').text(res[3]);
 			$('#desccc').show();
@@ -49,6 +56,10 @@ function Iframestreamango(url,stuff){
 	
 //escolher server para ver ep
 function escserver(sku,titulo){
+		$("#servers").fadeOut();
+		$("#gifsevs").fadeIn(); 
+		
+		setTimeout(function(){//timetout loader
 		document.getElementById(titulo+"2").style.backgroundColor = "rgba(153, 0, 204,0.4)";
 			
 			if(document.getElementById('epname') == null || titulo == document.getElementById('epname').value)
@@ -96,7 +107,7 @@ function escserver(sku,titulo){
 					var str = url;
 					var res = str.split("/");
 					
-					if(res[2] == "cattv.epizy.com")
+					if(res[2] == "cattv.epizy.com" || res[2] == "https://cattv.000webhostapp.com" || res[2] == "cattv.000webhostapp.com")
 					{
 						var str = res[4];
 						var res = str.split("#");
@@ -114,6 +125,7 @@ function escserver(sku,titulo){
 					
 					$( "#servers" ).load( "../series/"+res[0]+" #servers", function() {
 						//document.getElementById('servers2').style.display = "none";
+						$('#gifsevs').hide();
 						$("#servers").fadeIn();
 						$("#servers").attr("class", "");
 					});
@@ -124,6 +136,7 @@ function escserver(sku,titulo){
 				}
 			}
 			http.send(parametros);
+			}, 1);
 }
 	
 	//ao clicar na cruz para fechar as abas dos servers
@@ -181,7 +194,7 @@ function escserver(sku,titulo){
 					var str = url;
 					var res = str.split("/");
 					
-					if(res[2] == "cattv.epizy.com")
+					if(res[2] == "cattv.epizy.com" || res[2] == "https://cattv.000webhostapp.com" || res[2] == "cattv.000webhostapp.com")
 					{
 						var str = res[4];
 						var res = str.split("#");
