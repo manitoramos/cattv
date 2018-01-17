@@ -1,0 +1,9 @@
+7A9kzyxgs-o
+
+OpenLoad
+user api:75ff9fb72021f593
+user key:91xrolb1
+cattv folder: 4760904
+
+https://api.openload.co/1/file/ul?login=75ff9fb72021f593&key=91xrolb1&folder=4760904
+get the folder api to upload

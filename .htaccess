@@ -14,9 +14,10 @@ RewriteRule ^animes/?$ animes.php
 RewriteRule ^home/?$ index.php
 
 #ADMIN Frinendly urls
+RewriteRule ^admin/Home/?$ admin/index.php [L]
 RewriteRule ^admin/home/?$ admin/index.php [L]
 RewriteRule ^admin/inserir@series@novo_episodio/?$ admin/seriesnewep.php [L]
-#RewriteRule ^admin/inserir@meke/?$ admin/seriesnewep.php [L]
+RewriteRule ^admin/inserir@series@nova_serie/?$ admin/newserie.php [L]
 
 
 # DO NOT REMOVE THIS LINE AND THE LINES BELOW ERRORPAGEID:uQesaN

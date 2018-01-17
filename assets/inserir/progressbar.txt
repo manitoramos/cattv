@@ -1,0 +1,105 @@
+	<script>
+		$(document).ready(function(){
+			//$('.progress-bar').width('10%');
+			$('#openloadform').submit(function(e){
+				if($('#oepnupload').val()){
+					e.preventDefault();
+					$(this).ajaxSubmit({
+						url: "https://1fiafqi.oloadcdn.net/uls/cMcTWASgVlAdZ-oN",
+						type: "POST",
+						method: "POST",
+						//data:  new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSubmit: function(){
+							$('.progress-bar').width('0%')
+						},
+						uploadProgress: function(event, position, total, percentComplete){
+							$('.progress-bar').width(percentComplete+'%')
+							$('.progress-bar').html('<div id="progress-status">'+percentComplete+'%</div>')
+						},
+						success: function(data){
+							console.log(data);
+							secuploadteste();
+						},
+						error: function(data){
+							console.log(data);
+						},
+						resetForm: true
+					})
+					//console.log('meke');
+					return false
+					/*$.ajax({
+						beforeSubmit: function(){
+							$('.progress-bar').width('0%')
+						},
+						uploadProgress: function(event, position, total, percentComplete){
+							$('.progress-bar').width(percentComplete+'%')
+							$('.progress-bar').html('<div id="progress-status"'+percentComplete+'$<div>')
+						},
+				      url: "https://1fiafqi.oloadcdn.net/uls/cMcTWASgVlAdZ-oN",
+				      type: "POST",
+				      method: "POST",
+				      data:  new FormData(this),
+				      contentType: false,
+				      cache: false,
+				      processData:false,
+				      success: function(data)
+				      {
+				         console.log(data);
+				     	}
+				    })*/
+
+				    /*EXEMPLO DE COMO DEVE DAR IGUAL AO OUTRO
+				    $.ajax({
+        url: 'start-timer.php',
+        type: 'POST',
+        context: this,
+        success: function() { this.submit(); },
+      });
+      return false;
+				    */
+				}
+			})
+		})
+
+
+		function secuploadteste(){
+
+			if($('#oepnupload2').val()){
+					//e.preventDefault();
+					//JA ESTA A FUNCIONAR E PRECISO 2 FORMS PARA ESTA MERDA FUNCEMINAR
+					$('#openloadform2').ajaxSubmit({
+						url: "https://1fiafqi.oloadcdn.net/uls/cMcTWASgVlAdZ-oN",
+						type: "POST",
+						method: "POST",
+						//data:  new FormData(this),
+						contentType: false,
+						cache: false,
+						processData:false,
+						beforeSubmit: function(){
+							$('.progress-bar').width('0%')
+						},
+						uploadProgress: function(event, position, total, percentComplete){
+							$('.progress-bar').width(percentComplete+'%')
+							$('.progress-bar').html('<div id="progress-status">'+percentComplete+'%</div>')
+						},
+						success: function(data){
+							console.log(data);
+							//para por alguma coisa a load
+						},
+						error: function(data){
+							console.log(data);
+						},
+						resetForm: true
+					})
+					return false
+				}
+				else
+				{
+					console.log('So 1 upload foi feito');
+				}
+		}
+
+	</script>

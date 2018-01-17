@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>testing</title>
+	<link href="assets/bootstrap-3.3.0/dist/css/bootstrap.css" rel="stylesheet">
+	
+    <!-- JS -->
+    <script src='assets/js/jquery2.1.3.js'></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+    <script src="assets/bootstrap-3.3.0/dist/js/bootstrap.js"></script>
+</head>
+<body>
+<form id='file-catcher'>
+  <input id='file-input' type='file' multiple/>
+  <button type='submit'>
+    Submit
+  </button>
+</form>
+<div style="text-align: center;">
+	<button id="pauseee">Pausar</button>
+	<button id="testeee">Cancelar</button>
+</div>
+
+
+<div id='file-list-display'></div>
+
+<div class="progress" id="ttsda">
+<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<div style="display: none;" id="percenttt"></div>
+<div style="display: none;" id="howmany"></div>
+<div style="display: none;" id="donee"></div>
+<div id="doing">0</div>
+<br>
+<span id="sizeenv" style="display:none;">0 de </span><span id="sizemb"></span><span id="sizesend" style="display: none;"> Enviados</span>
+<br>
+<!--<span>Velociade Upload: </span><span id="upersec"></span> WORKING..-->
+<script>
+
+	//$( "#ttsda" ).click(function() {
+	  //alert(document.getElementById('doing').innerHTML);
+	//});
+
+	var verglb = "";
+
+	// Decimal round
+	function prnd(number, precision) {
+	  var factor = Math.pow(10, precision);
+	  return Math.round(number * factor) / factor;
+	}
+
+	function allbyt(byte){//passar os bytes para kb porem depende do tamanho da file
+		var kbb = byte / 1024;
+		if(kbb > 1000){
+			var mbb = byte / 1048576;
+			if(mbb > 1000){
+				var gbb = byte / 1073741824;
+				verglb = "GB";
+				return gbb;
+			}
+			else{verglb = "MB";return mbb;}
+		}
+		else{verglb = "KB";return kbb;}
+	}
+
+
+	(function () {
+		var fileCatcher = document.getElementById('file-catcher');
+	  	var fileInput = document.getElementById('file-input');
+	 	var fileListDisplay = document.getElementById('file-list-display');
+  
+  		var fileList = [];
+  		var renderFileList, sendFile;
+
+  		var sizefiles = 0;
+  		var arrayup = [];
+  		var request; //
+  		var stopupl = -1;
+  		var antigoeload = 0;
+  		var upsecc = 0; // velocidade de upload dividir por 2,08 e da a velocidade de upload(e.loaded)
+  		var ttfls = 0; // totoal files
+  		var completos = 0; //completas
+  		var nextfile = -1;//proxima para ser mandada para a queue depois da anteriror ter sido completa
+  
+	  /*fileCatcher.addEventListener('submit', function (evnt) {
+	  	evnt.preventDefault();
+	    fileList.forEach(function (file,index) {//meti index aqui
+	    		sendFile(file,index);//meti index aqui
+	    });
+	  });*/
+
+
+	  //******TESTES MEUSS*************
+		fileCatcher.addEventListener('submit', function (evnt) {//manda o primeiro index para upload
+			  	evnt.preventDefault();
+			  		nextfile++;
+			  		stopupl = -1;
+			  		request = null;
+			    	sendFile(fileList[nextfile],nextfile);//meti index aqui
+		});
+
+
+		function sendmore()//para mandar as seguintes sem contar com o index(0)
+		{
+			nextfile++;
+			sendFile(fileList[nextfile],nextfile);
+		}
+
+
+	  //*******TESTES******************
+	  
+	  fileInput.addEventListener('change', function (evnt) {
+	  		sizefiles = 0;
+	 		fileList = [];
+	  	for (var i = 0; i < fileInput.files.length; i++) {
+	    	fileList.push(fileInput.files[i]);
+	    }
+	    $("#sizeenv").show();
+	    $("#sizesend").show();
+	    renderFileList();
+	  });
+	  
+	  renderFileList = function () {
+	  	fileListDisplay.innerHTML = '';
+	    fileList.forEach(function (file, index) {
+	    	var fileDisplayEl = document.createElement('p');
+	      fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name + ' :: bytes:' + file.size;
+	       	sizefiles += file.size;
+	       	document.getElementById('doing').innerHTML = sizefiles;
+	       	//console.log(file.size);
+	       	//var kbt = sizefiles / 1024;//passar para KB
+	       	//var mbt = sizefiles / 1048576;//passar para MB
+	       	$("#sizemb").html(prnd(allbyt(sizefiles), 2) + verglb);
+	       	ttfls++;//para saber quantas files tem de ser mandadas para o sendFile
+	      fileListDisplay.appendChild(fileDisplayEl);
+	      $("#howmany").html(index + 1);
+	    });
+	  };
+	  
+	  sendFile = function (file,index) {//meti o index aqui
+	  	var formData = new FormData();
+	    request = new XMLHttpRequest();
+
+
+    //console.log(file);
+
+    request.upload.addEventListener('progress',function(e){
+
+    	//fazer upload com os bytes guardar o file.size numa variavel.
+
+    	var percent = Math.floor(e.loaded/e.total * 100);
+    	if(index == 0){
+    		arrayup[index] = e.loaded;
+    		antigoeload = e.loaded;
+    	}
+    	else{
+    		arrayup[index] = e.loaded;
+    		antigoeload = arrayup[index-1] + (e.loaded);
+    		//console.log(antigoeload);
+    	}
+    	//alert(fileList[0].index);
+    	//console.log(fileList[0]);
+    	//console.log(nextfile);
+    	/* WORKING VELOCIDADE DE UPLOAD
+    	if(antigoeload == 0){
+    		antigoeload = e.loaded;
+    		upsecc = antigoeload;
+    		$("#upersec").html(prnd(allbyt(upsecc), 2) + verglb);
+    		console.log(upsecc);
+    	}
+    	else{
+    		upsecc = e.loaded - antigoeload;
+    		antigoeload = e.loaded;
+    		$("#upersec").html(prnd(allbyt(upsecc), 2) + verglb);
+    		console.log(upsecc);
+    	}
+		*/
+    	//document.querySelector('#progress').innerHTML = Math.round(e.loaded/e.total * 100) + '%';
+    	$('.progress-bar').width(percent + '%');
+		$('.progress-bar').html('<div id="progress-status">'+percent+'%- '+ completos + ' de ' + $('#howmany').html() +' Completos</div>');
+		$('#percenttt').html(percent);
+		if(index != 0){
+			$("#sizeenv").html(prnd(allbyt(antigoeload), 2) + verglb + " de ");
+		}
+		else{$("#sizeenv").html(prnd(allbyt(e.loaded), 2) + verglb + " de ");}
+
+
+
+    },false)
+
+
+	request.onabort = function (e) {
+  		stopupl = 1;
+	};
+
+ 
+    formData.set('file', file);
+    request.open("POST", 'https://1fiafqi.oloadcdn.net/uls/EE-ZARYlzCsJE2EB');
+    request.send(formData);
+
+	   request.onreadystatechange = function() {
+		if(request.readyState == 4 && request.status == 200) 
+		{
+			if(stopupl == 1){
+				$(".progress-bar").addClass("progress-bar-warning");
+				$(".progress-bar").removeClass("active");
+				$(".progress-bar").html("Upload Cancelado!!");
+			}
+			else{
+				completos++;
+				$("#donee").html(completos);
+						
+						
+				//console.log(http.responseText);
+				//$('#logs').text(request.responseText);
+				if(request.responseText != ""){
+					console.log(JSON.parse(request.responseText));//imprime em Json
+				}
+				if(completos != ttfls){
+
+				}
+				else{
+					$(".progress-bar").addClass("progress-bar-success");
+					$(".progress-bar").removeClass("active");
+					$(".progress-bar").html('<div id="progress-status">'+ $('#percenttt').html() +'% - '+ $('#donee').html() + ' de ' + $('#howmany').html() +' Completos</div>');
+							//console.log($('.progress-bar').width());
+				}
+				if(completos == ttfls){}//verifica se o numero de upload completos e igual ao total de files
+				else{setTimeout(function(){ sendmore()}, 2000);}//espera 2 segundos para lançar outro file para update
+			}
+
+		}
+		else if(request.readyState == 4 && request.status == 0)//quando da erro no upload ou é parado
+		{
+			//para meter alguma coisa depois quando der erro
+			console.log(request);
+		}
+	}
+
+  }
+
+  $(document).on('click', '#testeee', function(e){
+  	if(request != null)
+  	{
+    	request.abort();
+    }
+	});
+})();
+
+
+</script>
+</body>
+</html>
+
+

@@ -1,17 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    <a class="navbar-brand" href="Home">CatTV - Admin</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="home">
+          <a class="nav-link" href="Home">
             <i class="fa fa-fw fa-dashboard"></i>
             <span class="nav-link-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Inserir">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-edit"></i>
             <span class="nav-link-text">Inserir</span>
@@ -21,7 +21,7 @@
               <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Series</a>
               <ul class="sidenav-third-level collapse" id="collapseMulti2">
                 <li>
-                  <a href="#">Nova Serie</a>
+                  <a href="inserir@series@nova_serie">Nova Serie</a>
                 </li>
                 <li>
                   <a href="inserir@series@novo_episodio">Novo Episodio</a>

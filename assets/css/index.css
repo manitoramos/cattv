@@ -1,4 +1,19 @@
 .imgthumb{
 	width:180px;
-	height:230px;
+	height:250px;
+	margin-bottom: 15px;
 }
+@media (min-width: 992px){
+	.col-md-5{
+		width: 25%
+	}
+}
+@media (min-width: 1200px){
+	.col-lg-3 {
+    	width: 20%;
+	}
+}
+/*
+.col-xs-10 {
+	width: 50%;
+}*/

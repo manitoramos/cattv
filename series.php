@@ -130,7 +130,7 @@
 		?>
 		<div class="col-md-3">
 			<br>
-			<img class="img-thumbnail" width="212" height="253" src="../<?php echo $reg2['img']; ?>">
+			<img class="img-thumbnail" width="212" height="253" src="<?php echo $reg2['img']; ?>">
 		</div>
 		<div class="col-md-4" style="color:white">
 			<h2 class=""><b><?php echo $reg2['titulo']; ?></b></h2>
@@ -249,6 +249,7 @@
 			</div>
 			<hr>
 			<div style="height:200px; overflow: auto;" class="episode">
+				<!-- Disable enquanto tiver a pensar os servidores do outro episodio {pointer-events: none; opacity: 0.1;} -->
 				<span style="color:white;">
 				<?php
 				
@@ -323,7 +324,7 @@
 	
 	<script>
 		document.getElementById('servers').style.display = "none";
-		if(document.getElementById('epname').value != "")
+		if(document.getElementById('epname') != null)
 		{
 			//document.getElementById('servers2').style.display = "inline";
 			var tirarbg = document.getElementById('epname').value;
