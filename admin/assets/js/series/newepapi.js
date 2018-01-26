@@ -1,49 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>testing</title>
-	<link href="admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	
-    <!-- JS -->
-    <script src='assets/js/jquery2.1.3.js'></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script> 
-    <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-<form id='file-catcher'>
-  <input id='file-input' type='file' multiple/>
-  <button type='submit' class="btn btn-primary">
-    Submit
-  </button>
-</form>
-<!--
-<div style="text-align: center;">
-	<button id="pauseee">Pausar</button>
-	<button id="testeee">Cancelar</button>
-</div>
--->
-
-<div id='file-list-display'></div>
-
-<div class="progress" id="ttsda">
-<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-
-<div style="display: none;" id="percenttt"></div>
-<div style="display: none;" id="howmany"></div>
-<div style="display: none;" id="donee"></div>
-<div id="doing">0</div>
-<br>
-<span id="sizeenv" style="display:none;">0 de </span><span id="sizemb"></span><span id="sizesend" style="display: none;"> Enviados</span>
-<br>
-<!--<span>Velociade Upload: </span><span id="upersec"></span> WORKING..-->
-<script>
 
 	//$( "#ttsda" ).click(function() {
 	  //alert(document.getElementById('doing').innerHTML);
 	//});
 
+
 	var verglb = "";//para dizer se é KB/MB OU GB
+	var allpercent = [];
 
 	// Decimal round
 	function prnd(number, precision) {
@@ -69,13 +31,22 @@
 	function mandajson(reqst)
 	{
 		$.ajax({
-            url: 'another.php',
+            url: '../another.php',
             type: 'POST',
             data: { responsee: reqst },
             success: function(data) {
                 console.log(data);
             }
         });
+	}
+
+	var sec = 0;var min = 0;var hor = 0;
+	function myTimer(){
+		sec++;
+		if(sec == 60){min++;sec = 0;}
+		if(min == 60){hor++;min = 0;}
+		if(sec < 10){$("#timer").html(min + ":0" + sec + "s");}
+		else{$("#timer").html(min + ":" + sec + "s");}
 	}
 
 
@@ -96,6 +67,7 @@
   		var ttfls = 0; // totoal files
   		var completos = 0; //completas
   		var nextfile = -1;//proxima para ser mandada para a queue depois da anteriror ter sido completa
+  		var firstfile = 0;//renderlist para saber qunado meter o header
   
 	  /*fileCatcher.addEventListener('submit', function (evnt) {
 	  	evnt.preventDefault();
@@ -108,10 +80,15 @@
 	  //******TESTES MEUSS*************
 		fileCatcher.addEventListener('submit', function (evnt) {//manda o primeiro index para upload
 			  	evnt.preventDefault();
+			  	if(fileInput.files.length <= 0){
+	  				return -1;
+	  			}
+	  			else{
 			  		nextfile++;
 			  		stopupl = -1;
 			  		request = null;
 			    	sendFile(fileList[nextfile],nextfile);//meti index aqui
+			    }
 		});
 
 
@@ -125,8 +102,19 @@
 	  //*******TESTES******************
 	  
 	  fileInput.addEventListener('change', function (evnt) {
-	  		sizefiles = 0;
-	 		fileList = [];
+	  		//firstfile = 0;
+	  		nextfile = -1;ttfls = 0;allpercent = [];completos = 0;
+	  		if(fileInput.files.length >= 1){//se tiver pelo menos 1 ficheiro escolhido deixa clicar no butao
+	  			$("#buttsend").prop('disabled', false);
+	  			$("#headtable").show();
+	  			$("#bottable").show();
+	  		}
+	  		else{
+	  			$("#buttsend").prop('disabled', true);
+	  			$("#headtable").hide();
+	  			$("#bottable").hide();
+	  		}
+	  		sizefiles = 0;fileList = [];
 	  	for (var i = 0; i < fileInput.files.length; i++) {
 	    	fileList.push(fileInput.files[i]);
 	    }
@@ -138,12 +126,20 @@
 	  renderFileList = function () {
 	  	fileListDisplay.innerHTML = '';
 	    fileList.forEach(function (file, index) {
-	    	var fileDisplayEl = document.createElement('p');
-	      fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name + ' :: bytes:' + file.size;
+	    	var fileDisplayEl = document.createElement('tr');
+	    	/*if(firstfile == 0){
+	    		var fileDisplayEl2 = document.createElement('tr');
+	    		firstfile++;
+	    		fileDisplayEl2.innerHTML = "<th>#</th><th>Filename</th><th>Size</th><th>Status</th>";
+	    		fileListDisplay.appendChild(fileDisplayEl2);
+	    	}*/
+	      	//fileDisplayEl.innerHTML = (index + 1) + ': ' + file.name + ' :: bytes:' + file.size + '<br>';
+	      	fileDisplayEl.innerHTML = "<td class='tdnumb'>"+(index + 1)+"</td><td class='tdfn'>"+file.name+"</td><td class='tdsize'>"+prnd(allbyt(file.size), 2)+verglb+"</td><td class='tdstatus' id='ongoing"+(index +1)+"'>0%</td>";
 	       	sizefiles += file.size;
-	       	document.getElementById('doing').innerHTML = sizefiles;
-	       	//console.log(file.size);
+	       	allpercent[index] = 0;
+	       	//document.getElementById('doing').innerHTML = sizefiles;
 	       	$("#sizemb").html(prnd(allbyt(sizefiles), 2) + verglb);
+	       	$("#totalflls").html(prnd(allbyt(sizefiles), 2) + verglb);
 	       	ttfls++;//para saber quantas files tem de ser mandadas para o sendFile
 	      fileListDisplay.appendChild(fileDisplayEl);
 	      $("#howmany").html(index + 1);
@@ -151,6 +147,7 @@
 	  };
 	  
 	  sendFile = function (file,index) {//meti o index aqui
+	  	$("#ttsda").fadeIn();
 	  	var formData = new FormData();
 	    request = new XMLHttpRequest();
 
@@ -160,7 +157,7 @@
     request.upload.addEventListener('progress',function(e){
 
     	//fazer upload com os bytes guardar o file.size numa variavel.
-
+    	var getpercent = 0;//saber a percentagem de todas as files
     	var percent = Math.floor(e.loaded/e.total * 100);
     	if(index == 0){
     		arrayup[index] = e.loaded;
@@ -171,6 +168,18 @@
     		antigoeload = arrayup[index-1] + (e.loaded);
     		//console.log(antigoeload);
     	}
+
+    	//Para ter a percentagem total de todos
+    	allpercent[index] = percent;
+    	for(i = 0; i < ttfls; i++)
+    	{
+    		getpercent = (getpercent + allpercent[i]);
+    		//console.log(getpercent);
+    	}
+    	getpercent = getpercent / ttfls;
+    	var getprog = prnd(getpercent,0)
+    	$("#ttstt").html(getprog + "%");
+
     	//alert(fileList[0].index);
     	//console.log(fileList[0]);
     	//console.log(nextfile);
@@ -189,13 +198,15 @@
     	}
 		*/
     	//document.querySelector('#progress').innerHTML = Math.round(e.loaded/e.total * 100) + '%';
-    	$('.progress-bar').width(percent + '%');
-		$('.progress-bar').html('<div id="progress-status">'+percent+'%- '+ completos + ' de ' + $('#howmany').html() +' Completos</div>');
+    	var indt = (index + 1);
+    	$("#ongoing"+indt).addClass("clrgoing");//mete a % em cor azul enquanto esta a fazer upload
+    	$("#ongoing"+indt).html(percent + "%");
+    	$('.progress-bar').width(getprog + '%');
+    	if(getprog < 19){$('.progress-bar').html('<div id="progress-status">'+getprog+'%</div>');}
+    	else{$('.progress-bar').html('<div id="progress-status">'+getprog+'% - '+ completos + ' de ' + $('#howmany').html() +' Completos</div>');}	
 		$('#percenttt').html(percent);
-		if(index != 0){
-			$("#sizeenv").html(prnd(allbyt(antigoeload), 2) + verglb + " de ");
-		}
-		else{$("#sizeenv").html(prnd(allbyt(e.loaded), 2) + verglb + " de ");}
+		if(index != 0){$("#sizeenv").html(prnd(allbyt(antigoeload), 2) + verglb + " de ");}//dados enviados
+		else{$("#sizeenv").html(prnd(allbyt(e.loaded), 2) + verglb + " de ");}//dados enviados
 
 
 
@@ -208,7 +219,7 @@
 
  
     formData.set('file', file);
-    request.open("POST", 'https://1fiafqj.oloadcdn.net/uls/-QI2nxE85V48sbhd');
+    request.open("POST", 'https://1fiafqj.oloadcdn.net/uls/h_REKDAx7S57b-km');
     request.send(formData);
 
 	   request.onreadystatechange = function() {
@@ -233,13 +244,15 @@
 					//alguma coisa aqui se for preciso 
 				}
 				else{
-					$(".progress-bar").addClass("progress-bar-success");
+					$(".progress-bar").addClass("bg-success");
 					$(".progress-bar").removeClass("progress-bar-animated");
 					$(".progress-bar").html('<div id="progress-status">'+ $('#percenttt').html() +'% - '+ $('#donee').html() + ' de ' + $('#howmany').html() +' Completos</div>');
 							//console.log($('.progress-bar').width());
 				}
+				var indt2 = (index + 1);
+    			$("#ongoing"+indt2).addClass("clrsucess");//meter a % em verde para cada 1
 				mandajson(request.responseText);
-				if(completos == ttfls){}//verifica se o numero de upload completos e igual ao total de files
+				if(completos == ttfls){clearTimeout(tim)}//verifica se o numero de upload completos e igual ao total de files
 				else{setTimeout(function(){ sendmore()}, 1000);}//espera 2 segundos para lançar outro file para update
 
 			}
@@ -261,10 +274,3 @@
     }
 	});
 })();
-
-
-</script>
-</body>
-</html>
-
-

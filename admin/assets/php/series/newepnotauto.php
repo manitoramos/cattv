@@ -1,4 +1,5 @@
 <!-- INSERIR SEM APIS -->
+<div style="display:none;">
 <div class="row">
         <div class="col-md-12">
           <h1></h1>
@@ -47,7 +48,7 @@ streamango**asdasda]<-streamango"
           <input type="submit">
         </form>
       </div>-->
-  
+  </div>
   
   <script>
     function inserir(){

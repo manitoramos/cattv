@@ -26,6 +26,10 @@
     .whtt{
       color:white;
     }
+
+    .progress-bar{
+      animation: progress 1.5s easy-in-out forwards;
+    }
   </style>
 </head>
 
@@ -37,6 +41,9 @@
   <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
+      <div class="progress" id="ttsda" style="margin-bottom: 5px; display:none;">
+<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="home">Dashboard</a>
@@ -52,6 +59,8 @@
       </div>
       <!-- A PARTE -->
       <?php include("assets/php/series/newepnotauto.php"); ?>
+
+      <?php require_once("assets/php/series/newepapi.php"); ?>
 
       </div>
     <!-- /.container-fluid-->
@@ -74,6 +83,8 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
+
+    <script src="assets/js/series/newepapi.js"></script>
   </div>
 </body>
 
