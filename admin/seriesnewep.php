@@ -51,11 +51,11 @@
         <li class="breadcrumb-item active">Series - Novo Episodio</li>
       </ol>
       <div class="row">
-        <div class="col-md-12 text-center whtt">
+        <!--<div class="col-md-12 text-center whtt">
           <a class="btn btn-dark" onclick="manual()" style="cursor:pointer;">Manual</a>
           <a class="btn btn-dark" onclick="manual()" style="cursor:pointer;">.txt</a>
           <a class="btn btn-dark" onclick="api()" style="cursor:pointer;">API</a>
-        </div>
+        </div>-->
       </div>
       <!-- A PARTE -->
       <?php include("assets/php/series/newepnotauto.php"); ?>
@@ -85,6 +85,84 @@
     <script src="js/sb-admin.min.js"></script>
 
     <script src="assets/js/series/newepapi.js"></script>
+    <script>
+      $( "#selectmetedo" ).change(function() {
+        if($("#selectmetedo").val() == "manual"){
+          $("#manualform").show();
+          $("#apiform").hide();
+        }
+        else if($("#selectmetedo").val() == "api"){
+          $("#manualform").hide();
+          $("#apiform").show();
+        }
+        else{
+          $("#manualform").hide();
+          $("#apiform").hide();
+        }
+      });
+
+      function teste(come){
+        tagname = come;
+        $('#manualform')[0].reset();
+        $('#apiform')[0].reset();
+        $("#legendmethod").show();
+        //console.log(tagname);
+      }
+
+      var isPaused = false;
+      $(document).ready(function (e) {
+        $("#apiform").submit(function(e) {
+          e.preventDefault();
+            gerarhash();
+            //setTimeout(function() {
+              waitForIt();//so manda a legenda quando o hash tiver pronto
+              function waitForIt(){
+                  if (isPaused) {
+                      setTimeout(function(){waitForIt()},100);
+                  } else {
+                      $.ajax({
+                        url: 'http://cattv.000webhostapp.com/savesub.php',
+                        type: 'POST',
+                        data: new FormData(document.getElementById('apiform')),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success: function(data) {
+                            console.log(data);
+                            if(data == "moved")
+                            {
+                              console.log("movida com successo!");
+                            }
+                        },
+                        error: function(data) {
+
+                        }
+                    })
+                  }
+              }
+            //}, 3000);
+        })
+      });
+
+
+        function gerarhash(){
+          isPaused = true;
+            $.ajax({
+              url: 'assets/php/novaseriesavep.php',
+              type: 'POST',
+              data: { work: "publishep" },
+              success: function(data) {
+                  console.log(data);
+                  if($("#selectmetedo").val() == "manual"){$("#subname").val(data)}
+                  else if($("#selectmetedo").val() == "api"){$("#subname2").val(data)}
+                  isPaused = false;
+              },
+              error: function(data) {
+                alert("algo correu mal ao gerar um hash para o nome da legenda");
+              }
+            })
+       }
+    </script>
   </div>
 </body>
 

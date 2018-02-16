@@ -295,8 +295,8 @@
 		</div>
 		
 		<div class="col-md-12">
-			<iframe id="frameserie" src="" width="100%" height="500" name="" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
-			<br><!-- name="subs:https://cattv.000webhostapp.com/subs/SupernaturalS01E02.srt" -->
+			<iframe id="frameserie" src="" width="100%" height="500" name="subs:http://cattv.000webhostapp.com/leg/SupernaturalS01E02.srt" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+			<br><!-- name="subs:http://cattv.000webhostapp.com/pt/SupernaturalS01E02.srt" -->
 			<br>
 		</div>
 	

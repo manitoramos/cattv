@@ -78,6 +78,21 @@
         });
 	}
 
+	function uploadhash(){
+		console.log("eiii");
+		alert("entao crlk");
+		/*$.ajax({
+            url: 'https://api.openload.co/1/file/ul?login=75ff9fb72021f593&key=91xrolb1&folder=4760904',
+            type: 'POST',
+            success: function(data) {
+                console.log(JSON.parse(data));
+            }
+            error: function(data){
+            	console.log("Algo de errado aconteceu ao tentar gerar o hash de uplaod");
+            }
+        });*/
+	}
+
 
 	(function () {
 		var fileCatcher = document.getElementById('file-catcher');
@@ -112,6 +127,7 @@
 			  		stopupl = -1;
 			  		request = null;
 			    	sendFile(fileList[nextfile],nextfile);//meti index aqui
+			    	uploadhash();
 		});
 
 
@@ -205,7 +221,6 @@
 	request.onabort = function (e) {
   		stopupl = 1;
 	};
-
  
     formData.set('file', file);
     request.open("POST", 'https://1fiafqj.oloadcdn.net/uls/-QI2nxE85V48sbhd');
