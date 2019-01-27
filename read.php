@@ -21,7 +21,7 @@
            readfile(utf8_encode("subs/" . $filename));
 		   */
 		   
-		   header('Content-Type: text/plain');
+		   	header('Content-Type: text/plain');
 			//header('Content-Disposition: attachment; filename='.$filename);  <-- DOWNLOAD FILE
 			header('Content-Length: ' . filesize("subs/" . $filename) . ";charset=UTF-8");
 			header('Expires: 0');
